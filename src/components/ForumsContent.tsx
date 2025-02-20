@@ -1,8 +1,8 @@
-
 import { useState } from "react";
-import { Search, MessageSquare, Users, ArrowUp, MessageCircle, Plus } from "lucide-react";
+import { Search, MessageSquare, Users, ArrowUp, ArrowDown, MessageCircle, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 interface Thread {
   id: string;
@@ -57,12 +57,17 @@ const categories = ["All", "Fundraising", "Agritech", "Fintech", "Legal", "Marke
 export const ForumsContent = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const filteredTopics = topics.filter(topic => {
     const matchesSearch = topic.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "All" || topic.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const handleVote = (threadId: string, direction: "up" | "down") => {
+    console.log(`Voted ${direction} on thread ${threadId}`);
+  };
 
   return (
     <div className="container mx-auto px-4">
@@ -78,7 +83,11 @@ export const ForumsContent = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="lg:w-64 space-y-6">
           <div className="bg-white p-6 rounded-lg border border-gray-100">
-            <Button className="w-full mb-6" size="lg">
+            <Button 
+              className="w-full mb-6" 
+              size="lg"
+              onClick={() => navigate("/forums/new")}
+            >
               <Plus className="mr-2 h-5 w-5" />
               New Discussion
             </Button>
@@ -144,12 +153,30 @@ export const ForumsContent = () => {
               >
                 <div className="flex items-start gap-4">
                   <div className="flex flex-col items-center space-y-1">
-                    <button className="text-gray-400 hover:text-primary">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVote(topic.id, "up");
+                      }}
+                      className="text-gray-400 hover:text-primary"
+                    >
                       <ArrowUp className="h-6 w-6" />
                     </button>
                     <span className="font-medium text-gray-900">{topic.votes}</span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleVote(topic.id, "down");
+                      }}
+                      className="text-gray-400 hover:text-primary"
+                    >
+                      <ArrowDown className="h-6 w-6" />
+                    </button>
                   </div>
-                  <div className="flex-1">
+                  <div 
+                    className="flex-1 cursor-pointer"
+                    onClick={() => navigate(`/forums/thread/${topic.id}`)}
+                  >
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900 hover:text-primary">
