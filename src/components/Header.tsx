@@ -1,6 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   return (
@@ -8,21 +8,30 @@ export const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <a href="/" className="text-xl font-semibold text-primary">
+            <Link to="/" className="text-xl font-semibold text-primary">
               EthioStartup Connect
-            </a>
+            </Link>
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="/events" className="text-gray-600 hover:text-primary transition-colors">
+            <Link to="/" className="text-gray-600 hover:text-primary transition-colors">
+              Home
+            </Link>
+            <Link to="/events" className="text-gray-600 hover:text-primary transition-colors">
               Events
-            </a>
-            <a href="/resources" className="text-gray-600 hover:text-primary transition-colors">
+            </Link>
+            <Link to="/network" className="text-gray-600 hover:text-primary transition-colors">
+              Network
+            </Link>
+            <Link to="/forums" className="text-gray-600 hover:text-primary transition-colors">
+              Forum
+            </Link>
+            <Link to="/resources" className="text-gray-600 hover:text-primary transition-colors">
               Resources
-            </a>
-            <a href="/jobs" className="text-gray-600 hover:text-primary transition-colors">
+            </Link>
+            <Link to="/jobs" className="text-gray-600 hover:text-primary transition-colors">
               Jobs
-            </a>
+            </Link>
             <Button variant="ghost" className="text-gray-600 hover:text-primary">
               Sign In
             </Button>
